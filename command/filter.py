@@ -36,6 +36,6 @@ def retrieve_filtered(folder_path: str, regex: str, print_: bool):
     for filepath in filepaths:
         if match(filepath, r):
             if print_:
-                click.echo(f"> {filepath}")
+                click.echo(click.echo(f"> {filepath}", fg="green"))
             filtered.append(filepath)
     return filtered
