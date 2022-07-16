@@ -5,25 +5,32 @@ This majorly a video duplicate remover application that helps to personally remo
 - Caleb Adewole
 
 ### Usage
-To use this application , first run `python setup.py install` or create a virtual enviroment.
+To use this application , first create a virtual enviroment and then run `pip install .`.
 ```bash
-python main.py --help
-Usage: main.py [OPTIONS] COMMAND [ARGS]...
+➜  video-cleaner git:(main) ✗ . venv/bin/activate
+(venv) ➜  video-cleaner git:(main) ✗ video-cleaner-cli 
+Usage: video-cleaner-cli [OPTIONS] COMMAND [ARGS]...
 
 Options:
   --help  Show this message and exit.
 
 Commands:
-  clean
+  clean   Remove all video files from a folder :params `folder_path` -...
   create  Creates a folder path using the specified destination path and...
-  delete  delete the provide folder path :params folder_path - folder to...
-  filter  filter files based on provided regex expression :params...
-  list    :params `folder_name` - path to list out
+  delete  Delete the provide folder path
+  filter  Filter files based on provided regex expression and print it
+  list    List out all filepath that is in the folder :params...
 ```
 To view sub-commands use the  example below 
 ```bash
-python main.py clean --help
-Usage: main.py clean [OPTIONS]
+(venv) ➜  video-cleaner git:(main) ✗ video-cleaner-cli clean --help
+Usage: video-cleaner-cli clean [OPTIONS]
+
+  Remove all video files from a folder
+
+  :params `folder_path` - path to clean :params `out` - output folder path
+  :params `regex` - regular expression pattern :params  `delete_output` - flag
+  to delete the output folder
 
 Options:
   -f, --folder-path TEXT  the video folder path to clean up  [required]
