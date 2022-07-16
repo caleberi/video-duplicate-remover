@@ -1,4 +1,4 @@
-## Video-Cleaner Cli
+## Video-Duplicate-Remover Cli
 This majorly a video duplicate remover application that helps to personally remove duplicate video files on unix-based or linux machine . But can provide some regular expression pattern to further enhance it capabilites.
 
 ## Contributors
