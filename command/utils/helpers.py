@@ -1,5 +1,6 @@
 from re import I, compile
 from shutil import move
+from typing import List
 import click
 from collections import deque
 from os import (
@@ -28,6 +29,28 @@ class PathNotFoundError(FileNotFoundError):
 
     def __str__(self) -> str:
         return f"The provided path :{self.path} with does not exist "
+
+
+class FolderTree:
+    def __init__(self) -> None:
+        self._dirs = []
+        self._files = []
+
+    @property
+    def dirs(self):
+        return self._dirs
+
+    @property
+    def files(self):
+        return self._files
+
+    @dirs.setter
+    def dirs(self, path):
+        self._dirs.append(resolve_os_encoding(path))
+
+    @files.setter
+    def files(self, path):
+        self.files.append(resolve_os_encoding(path))
 
 
 def get_file_extension(path):
@@ -68,40 +91,40 @@ def create_destination_folder(folder_name):
 
 
 def retreive_all_files_path(path):
-    filepaths = []
+    tree = FolderTree()
     try:
-        # get the current working directory
         if not path:
             root_path = resolve_os_encoding(getcwd())
         else:
             root_path = resolve_os_encoding(path)
 
-        click.echo(
-            "Queuing directories / sub-directories path for file path processing"
-        )
-        # retrieve all the available files names and path
         queue = deque()
+
         queue.append(root_path)
-        # open all subdirectories in current folder by adding them
+
         while queue:
             curr_dir_path = queue.popleft()
             with scandir(curr_dir_path) as dir_itr:
                 for entry in dir_itr:
                     if entry.is_file():
-                        filepaths.append(resolve_os_encoding(entry.path))
+                        tree.files = entry.path
                         continue
                     elif entry.is_dir():
+                        tree.dirs = entry.path
                         queue.append(resolve_os_encoding(entry.path))
+
     except OSError as err:
-        click.echo(
-            "Queuing directories / sub-directories" + " path for file path processing"
-        )
         raise err
     else:
-        return filepaths
+        return tree
 
 
-def retrieve_filtered(filepaths, expression):
+def retrieve_filtered(filepaths: List[str], expression: str):
+    """
+    Filters provided list of filepath with regex
+    :params  `filepaths` - list of file path to filter
+    :params  `expresssion` - pattern to filter with
+    """
     try:
         filtered = []
         c = compile(expression, I)
@@ -114,30 +137,28 @@ def retrieve_filtered(filepaths, expression):
         raise e
 
 
-def move_files_to_path(destination_path, file_path):
-    file_name = path.basename(file_path)
+def move_files_to_path(dst, src):
+    """
+    Relocates the file frorm src to dst
+    :params `src` - source folder path
+    :params `dst` - destination folder path
+    """
     try:
-        if not path.isdir(destination_path):
-            raise FileNotFoundError(destination_path)
-        move(file_path, destination_path)
-        print(f"moved the file : {file_name} into the folder in {destination_path} ")
+        if not path.isdir(dst):
+            raise FileNotFoundError(dst)
+        move(src=src, dst=dst)
     except FileNotFoundError as file_not_found:
-        print(f"The destination folder : {file_not_found.args[0]} was not found.")
         raise IOError from file_not_found
     except IOError as err:
-        print(
-            f"error occured while trying to move file : {file_name} to {destination_path}"
-        )
         raise err
 
 
 def delete_folder(folder_path):
     """
-    delete the provide folder path
-    :params folder_path - folder to delete
+    Delete the provide folder path
+    :params `folder_path` - folder to delete
     """
     files = listdir(folder_path)
     for file in files:
-        click.echo(f"deleting file : {file} ")
         remove(path.join(folder_path, file))
     rmdir(folder_path)
