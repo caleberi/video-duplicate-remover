@@ -27,8 +27,8 @@ from command.utils.helpers import (
 @click.option("-d", "--delete-output", help="delete the copies", is_flag=True)
 def clean(folder_path: str, out: str, regex: str, delete_output: bool):
     """
-    Remove all video files from a folder 
-    
+    Remove all video files from a folder
+
     :params `folder_path` - path to clean
     :params `out` - output folder path
     :params `regex` - regular expression pattern
