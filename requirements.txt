@@ -1,7 +1,7 @@
 black==22.6.0
 cffi==1.15.1
 click==8.1.3
-identify==2.5.1
+identify==2.5.2
 mypy-extensions==0.4.3
 pathspec==0.9.0
 platformdirs==2.5.2
@@ -11,4 +11,4 @@ setup-py-upgrade==1.2.1
 tomli==2.0.1
 typing_extensions==4.3.0
 ukkonen==1.0.1
-video-duplicate-remover==0.1.0
+-e git+https://github.com/caleberi/video-duplicate-remover@2a7570fc310f58ee58a7ce986bf0c5cfc8421527#egg=video_duplicate_remover

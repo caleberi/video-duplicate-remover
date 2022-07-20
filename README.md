@@ -23,20 +23,14 @@ Commands:
 ```
 To view sub-commands use the  example below 
 ```bash
-(venv) ➜  video-cleaner git:(main) ✗ video-cleaner-cli clean --help
-Usage: video-cleaner-cli clean [OPTIONS]
-
-  Remove all video files from a folder
-
-  :params `folder_path` - path to clean :params `out` - output folder path
-  :params `regex` - regular expression pattern :params  `delete_output` - flag
-  to delete the output folder
-
-Options:
-  -f, --folder-path TEXT  the video folder path to clean up  [required]
-  -o, --out TEXT          the output folder path to store duplicates
-                          [required]
-  -r, --regex TEXT        filter pattern for movies
-  -d, --delete-output     delete the copies
-  --help                  Show this message and exit.
+(venv) ➜  video-cleaner git:(main) ✗ video-cleaner-cli list -f ./examples 
+/Users/kudiadmin/PycharmProjects/video-cleaner/examples
+ 📁examples
+   ├── 📁main2
+   ├── 📁main
+      ├── 📁main3
+      └──🗒️ texy5
+   └──🗒️ text1
+└──🗒️ test.yml
+> DONE .
 ```
