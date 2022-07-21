@@ -56,10 +56,8 @@ class TreeNode:
 
     def _insert(self, path_: str):
         root = self
-        p = Path(path_)
-
-        if not p.is_relative_to(root.symbol) and not path_.startswith(root.symbol):
-            raise ValueError(f"{path_} is not relative to the path {root.symbol}")
+        
+        TreeNode._check_for_path_error(root.symbol, path_)
 
         suffix = path_.removeprefix(root.symbol)
         frags = suffix.split("/")[1:]
@@ -102,15 +100,23 @@ class TreeNode:
     def _print(self, width=0):
         root = self
         if width == 0:
-            print(f"{self.node_space_prefix*width} 📁{root.name}")
+            click.echo(
+                click.style(f"{self.node_space_prefix*width} 📁{root.name}", fg="green")
+            )
         else:
             if len(root.children) == 0 and root.isDir:
-                print(
-                    f"{self.node_pipe_prefix*(width)}{self.node_space_prefix*width}{self.node_elbow_prefix} 📁{root.name}"
+                click.echo(
+                    click.style(
+                        f"{self.node_space_prefix*width}{self.node_elbow_prefix} 📁{root.name}",
+                        fg="green",
+                    )
                 )
             else:
-                print(
-                    f"{self.node_space_prefix*(width)}{self.node_tee_prefix} 📁{root.name}"
+                click.echo(
+                    click.style(
+                        f"{self.node_space_prefix*(width)}{self.node_tee_prefix} 📁{root.name}",
+                        fg="green",
+                    )
                 )
         entities = sorted(
             [(k, v) for k, v in root.children.items()],
@@ -124,12 +130,18 @@ class TreeNode:
                 node._print(width + 1)
             else:
                 if i == l_entities - 1:
-                    print(
-                        f"{self.node_pipe_prefix*(width)}{self.node_space_prefix*(width)}{self.node_elbow_prefix}🗒️ {frag}"
+                    click.echo(
+                        click.style(
+                            f"{self.node_space_prefix*(width)}{self.node_elbow_prefix}🗒️ {frag}",
+                            fg="blue",
+                        )
                     )
                 else:
-                    print(
-                        f"{self.node_pipe_prefix*(width)}{self.node_space_prefix*(width)}{self.node_tee_prefix}🗒️ {frag}"
+                    click.echo(
+                        click.style(
+                            f"{self.node_space_prefix*(width)}{self.node_tee_prefix}🗒️ {frag}",
+                            fg="blue",
+                        )
                     )
 
     def __build__(self):
@@ -158,7 +170,6 @@ class TreeNode:
 @click.option(
     "-s",
     "--search-folder",
-    default=".",
     help="the folder to search and print out",
 )
 def list_files_destination(folder_name: str, search_folder: str):
@@ -170,15 +181,14 @@ def list_files_destination(folder_name: str, search_folder: str):
     destination_folder_path = path.abspath(
         path.join(resolve_os_encoding(getcwd()), folder_name)
     )
-    if search_folder:
+
+    if search_folder != None:
         search_folder_path = path.abspath(
-        path.join(resolve_os_encoding(getcwd()), search_folder)
+            path.join(resolve_os_encoding(getcwd()), search_folder)
         )
     folder = TreeNode(destination_folder_path).__build__()
-    if search_folder_path:
+    if search_folder != None :
         folder._search(search_folder_path)._print()
     else:
         folder._print()
     click.echo("> DONE .")
-
-

@@ -20,7 +20,7 @@ def retrieve_filtered(folder_path: str, regex: str, print_: bool):
     :params `folder_path`  - path to retrieved  and filter from
     :params `regex` - regular expression pattern
     """
-    filepaths = retreive_all_files_path(folder_path)
+    filepaths = retreive_all_files_path(folder_path).files
     filtered = []
     expression = r""
     if regex:
@@ -36,6 +36,6 @@ def retrieve_filtered(folder_path: str, regex: str, print_: bool):
     for filepath in filepaths:
         if match(filepath, r):
             if print_:
-                click.echo(click.echo(f"> {filepath}", fg="green"))
+                click.echo(click.style(f"> {filepath}", fg="green"))
             filtered.append(filepath)
     return filtered
