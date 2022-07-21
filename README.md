@@ -23,23 +23,22 @@ Commands:
 ```
 To view sub-commands use the  example below 
 ```bash
-(venv) ➜  video-cleaner git:(main) ✗ python command/list.py -f ./command
-/Users/kudiadmin/PycharmProjects/video-cleaner/command
+(venv) ➜  video-cleaner git:(main) ✗ video-cleaner-cli list -f ./command
  📁command
    ├── 📁utils
       ├── 📁__pycache__
-│  │        ├──🗒️ __init__.cpython-39.pyc
-│  │        └──🗒️ helpers.cpython-39.pyc
-│     ├──🗒️ __init__.py
-│     └──🗒️ helpers.py
+      ├──🗒️ __init__.cpython-39.pyc
+      └──🗒️ helpers.cpython-39.pyc
+   ├──🗒️ __init__.py
+   └──🗒️ helpers.py
    ├── 📁__pycache__
-│     ├──🗒️ __init__.cpython-39.pyc
-│     ├──🗒️ clean.cpython-39.pyc
-│     ├──🗒️ create.cpython-39.pyc
-│     ├──🗒️ filter.cpython-39.pyc
-│     ├──🗒️ list.cpython-39.pyc
-│     ├──🗒️ main.cpython-39.pyc
-│     └──🗒️ delete.cpython-39.pyc
+   ├──🗒️ __init__.cpython-39.pyc
+   ├──🗒️ clean.cpython-39.pyc
+   ├──🗒️ create.cpython-39.pyc
+   ├──🗒️ filter.cpython-39.pyc
+   ├──🗒️ list.cpython-39.pyc
+   ├──🗒️ main.cpython-39.pyc
+   └──🗒️ delete.cpython-39.pyc
 ├──🗒️ delete.py
 ├──🗒️ clean.py
 ├──🗒️ list.py

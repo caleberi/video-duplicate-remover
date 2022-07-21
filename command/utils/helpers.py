@@ -1,3 +1,4 @@
+import os
 from re import I, compile
 from shutil import move
 from typing import List
@@ -91,12 +92,13 @@ def create_destination_folder(folder_name):
 
 
 def retreive_all_files_path(path):
+    
     tree = FolderTree()
     try:
         if not path:
-            root_path = resolve_os_encoding(getcwd())
+            root_path = os.path.abspath(resolve_os_encoding(getcwd()))
         else:
-            root_path = resolve_os_encoding(path)
+            root_path = os.path.abspath(resolve_os_encoding(path))
 
         queue = deque()
 
@@ -112,7 +114,6 @@ def retreive_all_files_path(path):
                     elif entry.is_dir():
                         tree.dirs = entry.path
                         queue.append(resolve_os_encoding(entry.path))
-
     except OSError as err:
         raise err
     else:
