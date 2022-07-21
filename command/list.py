@@ -182,5 +182,3 @@ def list_files_destination(folder_name: str, search_folder: str):
     click.echo("> DONE .")
 
 
-if __name__ == "__main__":
-    list_files_destination()
