@@ -28,6 +28,7 @@ class TreeNode:
     def __init__(self, path_: str = None) -> None:
         self.node_tee_prefix = "├──"
         self.node_space_prefix = "   "
+        self.node_pipe_prefix = "│  "
         self.node_elbow_prefix = "└──"
         self.symbol = path_
         self.name = None
@@ -36,6 +37,12 @@ class TreeNode:
         self.isDir: bool = False
         self.isLink: bool = False
         self._metadata_update()
+
+    @classmethod
+    def _check_for_path_error(cls, parent: str, path_: str):
+        p = Path(path_)
+        if not p.is_relative_to(parent) and not path_.startswith(parent):
+            raise ValueError(f"{path_} is not relative to the path {parent}")
 
     def _generate_path_instance(self):
         return Path(self.symbol) if self.symbol is not None else None
@@ -72,10 +79,8 @@ class TreeNode:
 
     def _search(self, path_: str):
         root = self
-        p = Path(path_)
 
-        if not p.is_relative_to(root.symbol) and not path_.startswith(root.symbol):
-            raise ValueError(f"{path_} is not relative to the path {root.symbol}")
+        TreeNode._check_for_path_error(root.symbol, path_)
 
         suffix = path_.removeprefix(root.symbol)
         frags = suffix.split("/")[1:]
@@ -99,7 +104,14 @@ class TreeNode:
         if width == 0:
             print(f"{self.node_space_prefix*width} 📁{root.name}")
         else:
-            print(f"{self.node_space_prefix*width}{self.node_tee_prefix} 📁{root.name}")
+            if len(root.children) == 0 and root.isDir:
+                print(
+                    f"{self.node_pipe_prefix*(width)}{self.node_space_prefix*width}{self.node_elbow_prefix} 📁{root.name}"
+                )
+            else:
+                print(
+                    f"{self.node_space_prefix*(width)}{self.node_tee_prefix} 📁{root.name}"
+                )
         entities = sorted(
             [(k, v) for k, v in root.children.items()],
             key=lambda x: x[1].isDir,
@@ -113,11 +125,11 @@ class TreeNode:
             else:
                 if i == l_entities - 1:
                     print(
-                        f"{self.node_space_prefix*width}{self.node_elbow_prefix}🗒️ {frag}"
+                        f"{self.node_pipe_prefix*(width)}{self.node_space_prefix*(width)}{self.node_elbow_prefix}🗒️ {frag}"
                     )
                 else:
                     print(
-                        f"{self.node_space_prefix*width}{self.node_tee_prefix}🗒️ {frag}"
+                        f"{self.node_pipe_prefix*(width)}{self.node_space_prefix*(width)}{self.node_tee_prefix}🗒️ {frag}"
                     )
 
     def __build__(self):
@@ -143,7 +155,13 @@ class TreeNode:
     default=".",
     help="the folder to list out",
 )
-def list_files_destination(folder_name):
+@click.option(
+    "-s",
+    "--search-folder",
+    default=".",
+    help="the folder to search and print out",
+)
+def list_files_destination(folder_name: str, search_folder: str):
     """
     List out all filepath that is in the folder
 
@@ -152,7 +170,17 @@ def list_files_destination(folder_name):
     destination_folder_path = path.abspath(
         path.join(resolve_os_encoding(getcwd()), folder_name)
     )
-    print(destination_folder_path)
+    if search_folder:
+        search_folder_path = path.abspath(
+        path.join(resolve_os_encoding(getcwd()), search_folder)
+        )
     folder = TreeNode(destination_folder_path).__build__()
-    folder._print()
+    if search_folder_path:
+        folder._search(search_folder_path)._print()
+    else:
+        folder._print()
     click.echo("> DONE .")
+
+
+if __name__ == "__main__":
+    list_files_destination()
