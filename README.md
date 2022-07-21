@@ -23,14 +23,29 @@ Commands:
 ```
 To view sub-commands use the  example below 
 ```bash
-(venv) ➜  video-cleaner git:(main) ✗ video-cleaner-cli list -f ./examples 
-/Users/kudiadmin/PycharmProjects/video-cleaner/examples
- 📁examples
-   ├── 📁main2
-   ├── 📁main
-      ├── 📁main3
-      └──🗒️ texy5
-   └──🗒️ text1
-└──🗒️ test.yml
+(venv) ➜  video-cleaner git:(main) ✗ python command/list.py -f ./command
+/Users/kudiadmin/PycharmProjects/video-cleaner/command
+ 📁command
+   ├── 📁utils
+      ├── 📁__pycache__
+│  │        ├──🗒️ __init__.cpython-39.pyc
+│  │        └──🗒️ helpers.cpython-39.pyc
+│     ├──🗒️ __init__.py
+│     └──🗒️ helpers.py
+   ├── 📁__pycache__
+│     ├──🗒️ __init__.cpython-39.pyc
+│     ├──🗒️ clean.cpython-39.pyc
+│     ├──🗒️ create.cpython-39.pyc
+│     ├──🗒️ filter.cpython-39.pyc
+│     ├──🗒️ list.cpython-39.pyc
+│     ├──🗒️ main.cpython-39.pyc
+│     └──🗒️ delete.cpython-39.pyc
+├──🗒️ delete.py
+├──🗒️ clean.py
+├──🗒️ list.py
+├──🗒️ create.py
+├──🗒️ __init__.py
+├──🗒️ filter.py
+└──🗒️ main.py
 > DONE .
 ```
